@@ -13,8 +13,8 @@ export const registProperty = <T>(
   const handler = new PropertyHandler<T>(data, options);
 
   return {
-    watcher: (keys: GetDotKeys<T> | GetDotKeys<T>[]) =>
-      useInterfaceHandle<T>(keys, handler),
+    watcher: (keys: GetDotKeys<T> | GetDotKeys<T>[]): T =>
+      useInterfaceHandle<T>(keys, handler) as T,
     handler,
   };
 };

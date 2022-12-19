@@ -1,10 +1,10 @@
-import React, { useLayoutEffect, useMemo, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { GetDotKeys, PropertyHandler } from "../handler/PropertyHandler";
 
 const useInterfaceHandle = <R>(
   keys: GetDotKeys<R> | GetDotKeys<R>[],
   handle: PropertyHandler<R>
-) => {
+): R => {
   const [renderCount, setRenderCount] = useState<number>(0);
 
   useLayoutEffect(() => {
@@ -31,7 +31,7 @@ const useInterfaceHandle = <R>(
     };
   }, []);
 
-  return handle.property;
+  return handle.property as R;
 };
 
 export default useInterfaceHandle;

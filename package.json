@@ -1,6 +1,6 @@
 {
   "name": "property-process",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "watch and handle properties",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
