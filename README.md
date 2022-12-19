@@ -12,7 +12,7 @@ watch and handle properties easily
 ```ts
 import React from "react";
 
-import { registProperty } from "property-process";
+import { registViewModel } from "property-process";
 
 type CountType = {
   count: number;
@@ -21,7 +21,7 @@ type CountType = {
   decrease: () => void;
 };
 
-const { watcher, handler } = registProperty<CountType>({
+const { watcher, handler } = registViewModel<CountType>({
   count: 0,
   multiply: 0,
   increase() {
@@ -51,7 +51,6 @@ function App() {
 
 export default App;
 ```
-
 
 ## Furture Feature
 

@@ -5,7 +5,7 @@ import {
 } from "./core/handler/PropertyHandler";
 import useInterfaceHandle from "./core/hooks/useInterfaceHandle";
 
-export const registProperty = <T>(
+export const registViewModel = <T>(
   data: T,
 
   options?: PropertyHandlerOptions
