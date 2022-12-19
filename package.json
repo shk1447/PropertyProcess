@@ -1,5 +1,5 @@
 {
-  "name": "property-manager",
+  "name": "property-process",
   "version": "0.1.0",
   "description": "watch and handle properties",
   "main": "dist/index.js",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shk1447/PropertyManager.git"
+    "url": "git+https://github.com/shk1447/PropertyProcess.git"
   },
   "keywords": [
     "property",
@@ -20,9 +20,9 @@
   "author": "seokhwan.kim",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/shk1447/PropertyManager/issues"
+    "url": "https://github.com/shk1447/PropertyProcess/issues"
   },
-  "homepage": "https://github.com/shk1447/PropertyManager#readme",
+  "homepage": "https://github.com/shk1447/PropertyProcess#readme",
   "dependencies": {
     "react": "^18.2.0"
   },
