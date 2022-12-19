@@ -1,47 +1,38 @@
 import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+
 import { registProperty } from "property-process";
 
-export type CounterType = {
+type CountType = {
   count: number;
+  multiply: number;
   increase: () => void;
-  descrease: () => void;
+  decrease: () => void;
 };
 
-const { watcher, handler } = registProperty<CounterType>({
+const { watcher, handler } = registProperty<CountType>({
   count: 0,
-  increase: () => {
-    handler.property.count++;
+  multiply: 0,
+  increase() {
+    handler.property.count += 1;
   },
-  descrease: () => {
-    handler.property.count--;
+  decrease() {
+    handler.property.count -= 1;
   },
 });
 
+handler.on("count", () => {
+  handler.property.multiply = handler.property.count * 2;
+});
+
 function App() {
-  const { count } = watcher("count");
+  const state = watcher(["count"]);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <div style={{ display: "flex", gap: "4px" }}>
-          <button>+</button>
-          <span>{count}</span>
-          <button>-</button>
-        </div>
-      </header>
+    <div>
+      <div style={{ display: "flex", gap: "4px" }}>
+        <button onClick={state.increase}>+</button>
+        <span>{state.count}</span>
+        <button onClick={state.decrease}>-</button>
+      </div>
     </div>
   );
 }

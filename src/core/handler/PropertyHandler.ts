@@ -24,7 +24,7 @@ export type PropertyHandlerOptions = {
 
 export class PropertyHandler<R> extends EventHandler<GetDotKeys<R>> {
   private _property: R;
-  private _observable: Observable & R;
+  private _observable: R;
 
   private _options?: { deep: boolean };
   constructor(state: R, options?: PropertyHandlerOptions) {
@@ -45,15 +45,12 @@ export class PropertyHandler<R> extends EventHandler<GetDotKeys<R>> {
     changes.forEach((change) => {
       const modifiedArray: Record<any, number> = {};
 
-      change.path.splice(
-        change.path.findIndex((d) => typeof d == "number"),
-        change.path.length
-      );
+      const paths = change.path.filter((d) => typeof d != "number");
 
       if (this._options?.deep) {
         let eventName = "";
 
-        change.path.forEach((item) => {
+        paths.forEach((item) => {
           eventName += item + ".";
 
           this.emit(
@@ -62,7 +59,7 @@ export class PropertyHandler<R> extends EventHandler<GetDotKeys<R>> {
           );
         });
       } else {
-        const eventName = change.path.join(".");
+        const eventName = paths.join(".");
 
         this.emit(eventName as GetDotKeys<R>, [change.object]);
       }
