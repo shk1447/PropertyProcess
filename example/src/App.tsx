@@ -13,21 +13,29 @@ const { watcher, handler } = registViewModel<CountType>({
   count: 0,
   multiply: 0,
   increase() {
-    handler.property.count += 1;
+    handler.state.count += 1;
   },
   decrease() {
-    handler.property.count -= 1;
+    handler.state.count -= 1;
   },
 });
 
 handler.on("count", () => {
-  handler.property.multiply = handler.property.count * 2;
+  handler.state.multiply = handler.state.count * 2;
 });
 
 function App() {
   const state = watcher(["count"]);
   return (
-    <div>
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
       <div style={{ display: "flex", gap: "4px" }}>
         <button onClick={state.increase}>+</button>
         <span>{state.count}</span>

@@ -8,6 +8,8 @@ export class EventHandler<K> {
     this.handlers[event] = this.handlers[event] || [];
 
     this.handlers[event].push(func);
+
+    return this;
   };
 
   off = (event: K, func: (...args: any) => void) => {
@@ -20,6 +22,8 @@ export class EventHandler<K> {
         }
       }
     }
+
+    return this;
   };
 
   emit = (event: K, args?: any) => {
@@ -32,5 +36,7 @@ export class EventHandler<K> {
         }
       }
     }
+
+    return this;
   };
 }

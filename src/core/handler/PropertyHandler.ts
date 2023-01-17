@@ -37,8 +37,16 @@ export class PropertyHandler<R> extends EventHandler<GetDotKeys<R>> {
     Observable.observe(this._observable, this.watch);
   }
 
-  get property() {
+  get state() {
     return this._observable;
+  }
+
+  get property() {
+    return this._property;
+  }
+
+  set property(val: R) {
+    this._property = val;
   }
 
   private watch = (changes: Change[]) => {

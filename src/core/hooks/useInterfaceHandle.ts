@@ -31,7 +31,7 @@ const useInterfaceHandle = <R>(
     };
   }, []);
 
-  return handle.property as R;
+  return handle.state as R;
 };
 
 export default useInterfaceHandle;
