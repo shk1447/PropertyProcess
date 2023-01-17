@@ -7314,10 +7314,10 @@
     "object-assign" "^4.1.1"
     "react-is" "^16.13.1"
 
-"property-process@^0.1.10":
-  "integrity" "sha512-KuW/KisbAFnJImnuz0zgG5jApaEYv0L/GlaJPadW0SH5DU3OOUpIKlIIcZQx6cJUD+8mWdCXkFWm9XvusLBtTQ=="
-  "resolved" "https://registry.npmjs.org/property-process/-/property-process-0.1.10.tgz"
-  "version" "0.1.10"
+"property-process@^0.1.11":
+  "integrity" "sha512-X5hgyUsm3pCdFaVK/9jbhIg33+G0EI1nfEQKTzwF7ZQpz+ZVuYIobXZMxWeI7eYJTajJSbIP9t/drj+fgaY9hg=="
+  "resolved" "https://registry.npmjs.org/property-process/-/property-process-0.1.11.tgz"
+  "version" "0.1.11"
   dependencies:
     "react" "^18.2.0"
 
