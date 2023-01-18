@@ -8,6 +8,7 @@ const useInterfaceHandle = <R>(
   const [renderCount, setRenderCount] = useState<number>(0);
 
   useLayoutEffect(() => {
+    handle.increaseReference();
     const changeState = () => {
       setRenderCount((prev: number) => prev + 1);
     };
@@ -21,6 +22,7 @@ const useInterfaceHandle = <R>(
     }
 
     return () => {
+      handle.decreaseReference();
       if (Array.isArray(keys)) {
         keys.forEach((key) => {
           handle.off(key, changeState);

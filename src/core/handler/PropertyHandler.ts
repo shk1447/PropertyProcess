@@ -25,16 +25,14 @@ export type PropertyHandlerOptions = {
 export class PropertyHandler<R> extends EventHandler<GetDotKeys<R>> {
   private _property: R;
   private _observable: R;
+  private _reference: number;
 
   private _options?: { deep: boolean };
-  constructor(state: R, options?: PropertyHandlerOptions) {
+  constructor(init_property: R, options?: PropertyHandlerOptions) {
     super();
-    this._property = state;
+    this._property = init_property;
     this._options = options;
-
-    this._observable = Observable.from(this._property);
-
-    Observable.observe(this._observable, this.watch);
+    this._reference = 0;
   }
 
   get state() {
@@ -47,6 +45,19 @@ export class PropertyHandler<R> extends EventHandler<GetDotKeys<R>> {
 
   set property(val: R) {
     this._property = val;
+  }
+
+  get reference() {
+    return this._reference;
+  }
+
+  private set reference(val: number) {
+    this._reference = val;
+    if (this._reference > 0) {
+      this.start();
+    } else {
+      this.stop();
+    }
   }
 
   private watch = (changes: Change[]) => {
@@ -73,6 +84,24 @@ export class PropertyHandler<R> extends EventHandler<GetDotKeys<R>> {
       }
     });
   };
+
+  public increaseReference() {
+    this.reference++;
+  }
+
+  public decreaseReference() {
+    this.reference--;
+  }
+
+  private start() {
+    this._observable = Observable.from(this._property);
+    Observable.observe(this._observable, this.watch);
+  }
+
+  private stop() {
+    Observable.unobserve(this._observable);
+    this._observable = Observable.from(this._property);
+  }
 
   public reset() {
     Observable.unobserve(this._observable);
