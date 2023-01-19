@@ -26,13 +26,15 @@ export class PropertyHandler<R> extends EventHandler<GetDotKeys<R>> {
   private _property: R;
   private _observable: R;
   private _reference: number;
-
+  private _started: boolean;
   private _options?: { deep: boolean };
   constructor(init_property: R, options?: PropertyHandlerOptions) {
     super();
     this._property = init_property;
     this._options = options;
     this._reference = 0;
+    this._observable = Observable.from(this._property);
+    this._started = false;
   }
 
   get state() {
@@ -94,13 +96,18 @@ export class PropertyHandler<R> extends EventHandler<GetDotKeys<R>> {
   }
 
   private start() {
-    this._observable = Observable.from(this._property);
+    if (this._started) return;
+
     Observable.observe(this._observable, this.watch);
+    this._started = true;
   }
 
   private stop() {
+    if (!this._started) return;
+
     Observable.unobserve(this._observable);
     this._observable = Observable.from(this._property);
+    this._started = false;
   }
 
   public reset() {
