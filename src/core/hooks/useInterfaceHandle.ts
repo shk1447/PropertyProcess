@@ -1,5 +1,6 @@
 import { useLayoutEffect, useState } from "react";
-import { GetDotKeys, PropertyHandler } from "../handler/PropertyHandler";
+import { PropertyHandler } from "../handler/PropertyHandler";
+import { GetDotKeys } from "../types";
 
 const useInterfaceHandle = <R>(
   keys: GetDotKeys<R> | GetDotKeys<R>[],

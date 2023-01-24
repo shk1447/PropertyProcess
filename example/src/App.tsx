@@ -1,6 +1,6 @@
 import React from "react";
 
-import { registViewModel } from "property-process";
+import { registViewModel, useViewModel } from "property-process";
 
 type CountType = {
   count: number;
@@ -15,7 +15,7 @@ type CountType = {
   decrease: () => void;
 };
 
-const { watcher, handler } = registViewModel<CountType>(
+const appViewModel = registViewModel<CountType>(
   {
     count: 0,
     multiply: 0,
@@ -26,22 +26,23 @@ const { watcher, handler } = registViewModel<CountType>(
       },
     },
     increase() {
-      handler.state.count += 1;
+      console.log(this);
+      this.count = this.count + 1;
+      console.log(appViewModel.handler.state);
     },
     decrease() {
-      handler.state.count -= 1;
+      console.log(this);
+      this.count = this.count - 1;
     },
   },
   { deep: true }
 );
 
-handler.on("count", () => {
-  handler.state.multiply = handler.state.count * 2;
-});
-
 function App() {
-  const state = watcher(["count", "nested"]);
+  const [state, send] = useViewModel(appViewModel, ["count"]);
+
   console.log(state);
+
   return (
     <div
       style={{
@@ -54,9 +55,9 @@ function App() {
       }}
     >
       <div style={{ display: "flex", gap: "4px" }}>
-        <button onClick={state.increase}>+</button>
+        <button onClick={() => send("increase", {})}>+</button>
         <span>{state.count}</span>
-        <button onClick={state.decrease}>-</button>
+        <button onClick={() => send("decrease", {})}>-</button>
       </div>
       <button onClick={() => state.nested.test.push("1")}>Nested Test</button>
     </div>

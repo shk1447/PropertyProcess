@@ -1,21 +1,7 @@
 import { Change, Observable } from "../observer";
+import { GetDotKeys } from "../types";
 import { EventHandler } from "./EventHandler";
-
-export type DotPrefix<T extends string> = T extends "" ? "" : `.${T}`;
-
-export type GetDotKeys<T> = T extends Date | Function | Array<any>
-  ? ""
-  : (
-      T extends object
-        ? {
-            [K in Exclude<keyof T, symbol>]:
-              | `${K}`
-              | `${K}${DotPrefix<GetDotKeys<T[K]>>}`;
-          }[Exclude<keyof T, symbol>]
-        : ""
-    ) extends infer D
-  ? Extract<D, string>
-  : never;
+import { ServiceHandler } from "./ServiceHandler";
 
 export type PropertyHandlerOptions = {
   // 하위 데이터 변경시 이벤트가 발생됩니다.
@@ -28,6 +14,8 @@ export class PropertyHandler<R> extends EventHandler<GetDotKeys<R>> {
   private _reference: number;
   private _started: boolean;
   private _options?: { deep: boolean };
+
+  public services: ServiceHandler<R>;
   constructor(init_property: R, options?: PropertyHandlerOptions) {
     super();
     this._property = init_property;
@@ -35,6 +23,7 @@ export class PropertyHandler<R> extends EventHandler<GetDotKeys<R>> {
     this._reference = 0;
     this._observable = Observable.from(this._property);
     this._started = false;
+    this.services = new ServiceHandler<R>(this);
   }
 
   get state() {
