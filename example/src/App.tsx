@@ -11,7 +11,7 @@ type CountType = {
       level: number;
     };
   };
-  increase: () => void;
+  increase: (payload: any) => void;
   decrease: () => void;
 };
 
@@ -25,13 +25,10 @@ const appViewModel = registViewModel<CountType>(
         level: 1,
       },
     },
-    increase() {
-      console.log(this);
+    increase(payload) {
       this.count = this.count + 1;
-      console.log(appViewModel.handler.state);
     },
     decrease() {
-      console.log(this);
       this.count = this.count - 1;
     },
   },
@@ -39,7 +36,7 @@ const appViewModel = registViewModel<CountType>(
 );
 
 function App() {
-  const [state, send] = useViewModel(appViewModel, ["count"]);
+  const [state, send] = useViewModel(appViewModel, ["count", "nested.test"]);
 
   console.log(state);
 
@@ -55,7 +52,7 @@ function App() {
       }}
     >
       <div style={{ display: "flex", gap: "4px" }}>
-        <button onClick={() => send("increase", {})}>+</button>
+        <button onClick={() => send("increase", { number: 111 })}>+</button>
         <span>{state.count}</span>
         <button onClick={() => send("decrease", {})}>-</button>
       </div>
