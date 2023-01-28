@@ -3,7 +3,7 @@ import {
   PropertyHandlerOptions,
 } from "./core/handler/PropertyHandler";
 import useInterfaceHandle from "./core/hooks/useInterfaceHandle";
-import { GetDotKeys, GetFunctionKeys } from "./core/types";
+import { GetDotKeys, GetFunctionKeys, GetFunctionParams } from "./core/types";
 
 export type ViewModel<T> = {
   watcher: (keys: GetDotKeys<T> | GetDotKeys<T>[]) => T;
@@ -26,10 +26,19 @@ export const registViewModel = <T>(
 export const useViewModel = <T>(
   vm: ViewModel<T>,
   keys?: GetDotKeys<T>[]
-): [T, (name: GetFunctionKeys<T>, payload: any) => void] => {
+): [
+  T,
+  <K extends GetFunctionKeys<T>>(
+    name: K,
+    payload: GetFunctionParams<T>[K]
+  ) => void
+] => {
   const state = vm.watcher(keys ? keys : []);
 
-  const send = (name: GetFunctionKeys<T>, payload: any) => {
+  const send = <K extends GetFunctionKeys<T>>(
+    name: K,
+    payload: GetFunctionParams<T>[K]
+  ) => {
     vm.handler.services.emit(name, [payload]);
   };
 

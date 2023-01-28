@@ -11,8 +11,8 @@ type CountType = {
       level: number;
     };
   };
-  increase: (payload: any) => void;
-  decrease: () => void;
+  increase: (payload: { amount: number }) => void;
+  decrease: (payload: { amount: number }) => void;
 };
 
 const appViewModel = registViewModel<CountType>(
@@ -26,7 +26,7 @@ const appViewModel = registViewModel<CountType>(
       },
     },
     increase(payload) {
-      this.count = this.count + 1;
+      this.count = this.count + 1 + payload.amount;
     },
     decrease() {
       this.count = this.count - 1;
@@ -37,8 +37,6 @@ const appViewModel = registViewModel<CountType>(
 
 function App() {
   const [state, send] = useViewModel(appViewModel, ["count", "nested.test"]);
-
-  console.log(state);
 
   return (
     <div
@@ -52,9 +50,9 @@ function App() {
       }}
     >
       <div style={{ display: "flex", gap: "4px" }}>
-        <button onClick={() => send("increase", { number: 111 })}>+</button>
+        <button onClick={() => send("increase", { amount: 1 })}>+</button>
         <span>{state.count}</span>
-        <button onClick={() => send("decrease", {})}>-</button>
+        <button onClick={() => send("decrease", { amount: 1 })}>-</button>
       </div>
       <button onClick={() => state.nested.test.push("1")}>Nested Test</button>
     </div>

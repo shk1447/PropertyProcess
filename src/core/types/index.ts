@@ -19,3 +19,7 @@ export type GetFunctionKeys<T> = {
 }[Exclude<keyof T, symbol>] extends infer D
   ? Extract<D, string>
   : never;
+
+export type GetFunctionParams<T> = {
+  [K in keyof T]: T[K] extends (args: any) => void ? Parameters<T[K]>[0] : T[K];
+};

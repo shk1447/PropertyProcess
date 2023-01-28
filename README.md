@@ -12,39 +12,61 @@ watch and handle properties easily
 ```ts
 import React from "react";
 
-import { registViewModel } from "property-process";
+import { registViewModel, useViewModel } from "property-process";
 
 type CountType = {
   count: number;
   multiply: number;
-  increase: () => void;
-  decrease: () => void;
+  nested: {
+    test: string[];
+    deepTest: {
+      level: number;
+    };
+  };
+  increase: (payload: { amount: number }) => void;
+  decrease: (payload: { amount: number }) => void;
 };
 
-const { watcher, handler } = registViewModel<CountType>({
-  count: 0,
-  multiply: 0,
-  increase() {
-    handler.property.count += 1;
+const appViewModel = registViewModel<CountType>(
+  {
+    count: 0,
+    multiply: 0,
+    nested: {
+      test: [],
+      deepTest: {
+        level: 1,
+      },
+    },
+    increase(payload) {
+      this.count = this.count + 1 + payload.amount;
+    },
+    decrease() {
+      this.count = this.count - 1;
+    },
   },
-  decrease() {
-    handler.property.count -= 1;
-  },
-});
-
-handler.on("count", () => {
-  handler.property.multiply = handler.property.count * 2;
-});
+  { deep: true }
+);
 
 function App() {
-  const state = watcher(["count"]);
+  const [state, send] = useViewModel(appViewModel, ["count", "nested.test"]);
+
   return (
-    <div>
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
       <div style={{ display: "flex", gap: "4px" }}>
-        <button onClick={state.increase}>+</button>
+        <button onClick={() => send("increase", { amount: 1 })}>+</button>
         <span>{state.count}</span>
-        <button onClick={state.decrease}>-</button>
+        <button onClick={() => send("decrease", { amount: 1 })}>-</button>
       </div>
+      <button onClick={() => state.nested.test.push("1")}>Nested Test</button>
     </div>
   );
 }
