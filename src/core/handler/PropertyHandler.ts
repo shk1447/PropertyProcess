@@ -1,9 +1,10 @@
-import { Change, Observable } from "../observer";
+import { Change, ObjectObserver, Observable } from "../observer";
 import { GetDotKeys } from "../types";
 import { EventHandler } from "./EventHandler";
 import { ServiceHandler } from "./ServiceHandler";
 
 export type PropertyHandlerOptions = {
+  name?: string;
   // 하위 데이터 변경시 이벤트가 발생됩니다.
   deep: boolean;
 };
@@ -13,7 +14,7 @@ export class PropertyHandler<R> extends EventHandler<GetDotKeys<R>> {
   private _observable: R;
   private _reference: number;
   private _started: boolean;
-  private _options?: { deep: boolean };
+  private _options?: PropertyHandlerOptions;
 
   public services: ServiceHandler<R>;
   constructor(init_property: R, options?: PropertyHandlerOptions) {
@@ -40,6 +41,10 @@ export class PropertyHandler<R> extends EventHandler<GetDotKeys<R>> {
 
   get reference() {
     return this._reference;
+  }
+
+  get name() {
+    return this._options && this._options.name ? this._options.name : "unnamed";
   }
 
   private set reference(val: number) {

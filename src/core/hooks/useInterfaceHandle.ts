@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useMemo, useState } from "react";
 import { PropertyHandler } from "../handler/PropertyHandler";
 import { GetDotKeys } from "../types";
 
@@ -8,7 +8,7 @@ const useInterfaceHandle = <R>(
 ): R => {
   const [renderCount, setRenderCount] = useState<number>(0);
 
-  useLayoutEffect(() => {
+  useMemo(() => {
     handle.increaseReference();
     const changeState = () => {
       setRenderCount((prev: number) => prev + 1);

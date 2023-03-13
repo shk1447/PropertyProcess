@@ -16,11 +16,13 @@ export const registViewModel = <T>(
 ): ViewModel<T> => {
   const handler = new PropertyHandler<T>(data, options);
 
-  return {
+  const vm = {
     watcher: (keys: GetDotKeys<T> | GetDotKeys<T>[]): T =>
       useInterfaceHandle<T>(keys, handler) as T,
     handler,
   };
+
+  return vm;
 };
 
 export const useViewModel = <T>(
