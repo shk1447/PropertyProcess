@@ -36,7 +36,7 @@ const appViewModel = registViewModel<CountType>(
 );
 
 function App() {
-  const [state, send] = useViewModel(appViewModel, ["count", "nested.test"]);
+  const [state, send] = useViewModel(appViewModel, ["count", "nested"]);
 
   return (
     <div
@@ -54,7 +54,10 @@ function App() {
         <span>{state.count}</span>
         <button onClick={() => send("decrease", { amount: 1 })}>-</button>
       </div>
-      <button onClick={() => state.nested.test.push("1")}>Nested Test</button>
+      <div style={{ display: "flex", gap: "4px" }}>
+        <span>{state.nested.test.length}</span>
+        <button onClick={() => state.nested.test.push("1")}>Nested Test</button>
+      </div>
     </div>
   );
 }
