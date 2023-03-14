@@ -1,6 +1,6 @@
 {
   "name": "property-process",
-  "version": "0.3.0",
+  "version": "0.4.5",
   "description": "watch and handle properties like ViewModel",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
